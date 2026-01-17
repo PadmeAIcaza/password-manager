@@ -4,6 +4,7 @@
 
 # ---------------------------- UI SETUP ------------------------------- #
 from tkinter import *
+from tkinter import messagebox
 
 BG = "#FFD8DF"
 L_FONT = ('Times New Roman', 12, 'bold')
@@ -17,8 +18,17 @@ def add_clicked():
     website = website_entry.get()
     email = email_entry.get()
     password = password_entry.get()
-    with open('../data.txt', mode='a') as file:
-        file.write(f'{website} | {email} | {password}\n')
+
+    if website == '' or email == '' or password =='':
+        messagebox.showerror(title='Empty Fields', message='Please fill every field')
+        return
+
+    is_ok = messagebox.askokcancel(title='Confirm', message=f'These are the details entered: \nEmail: {email}\nPassword: {password}\nIs this ok to save?')
+    if is_ok:
+        with open('../data.txt', mode='a') as file:
+            file.write(f'{website} | {email} | {password}\n')
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
 
 
 # LOGO
