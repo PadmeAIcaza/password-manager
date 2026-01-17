@@ -1,0 +1,3 @@
+Amazon | pd@gmail.com | test
+Ebay | pd@gmail.com | test1
+Udemy | pd@gmail.com | test2

@@ -13,6 +13,14 @@ window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50, bg=BG)
 
+def add_clicked():
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
+    with open('../data.txt', mode='a') as file:
+        file.write(f'{website} | {email} | {password}\n')
+
+
 # LOGO
 canvas = Canvas(window, width=200, height=200, bg=BG, highlightthickness=0)
 logo_img = PhotoImage(file="../assets/logo.png")
@@ -45,7 +53,7 @@ password_entry.grid(row=3, column=1, sticky="w")
 generate_button = Button(window, text="Generate Password", font=B_FONT)
 generate_button.grid(row=3, column=2, sticky="w")
 
-add_button = Button(window, text="Add", font=B_FONT, width=36)
+add_button = Button(window, text="Add", font=B_FONT, width=36, command=add_clicked)
 add_button.grid(row=4, column=1, columnspan=2, sticky="w")
 
 window.mainloop()
