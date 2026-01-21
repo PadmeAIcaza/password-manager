@@ -6,6 +6,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import choice, randint, shuffle
+import json
 
 BG = "#FFD8DF"
 L_FONT = ('Times New Roman', 12, 'bold')
@@ -36,15 +37,28 @@ def add_clicked():
     website = website_entry.get()
     email = email_entry.get()
     password = password_entry.get()
+    new_data = {
+    website: {
+        'email': email,
+        'password': password
+        }
+    }
 
     if website == '' or email == '' or password =='':
         messagebox.showerror(title='Empty Fields', message='Please fill every field')
-        return
+    else:
+        try:
+            with open('../data.json', mode='r') as file:
+                data = json.load(file) # reads old data
+        except FileNotFoundError:
+            with open('../data.json', 'w') as file:
+                json.dump(new_data, file, indent=4)
+        else:
+            data.update(new_data) # updates old data with new data
 
-    is_ok = messagebox.askokcancel(title='Confirm', message=f'These are the details entered: \nEmail: {email}\nPassword: {password}\nIs this ok to save?')
-    if is_ok:
-        with open('../data.txt', mode='a') as file:
-            file.write(f'{website} | {email} | {password}\n')
+            with open('../data.json', 'w') as file:
+                json.dump(data, file, indent=4) # saves updated data
+        finally:
             website_entry.delete(0, END)
             email_entry.delete(0, END)
             password_entry.delete(0, END)
