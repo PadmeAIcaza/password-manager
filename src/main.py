@@ -67,6 +67,21 @@ def add_clicked():
             email_entry.delete(0, END)
             password_entry.delete(0, END)
 
+def find_password():
+    website = website_entry.get()
+    try:
+        with open('../data.json') as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showinfo(title='Error', message='No Data File Found')
+    else:
+        if website in data:
+            email = data[website]['email']
+            password = data[website]['password']
+            messagebox.showinfo(title='website', message=f'Email: {email}\nPassword: {password}')
+        else:
+            messagebox.showinfo(title='Error', message=f'No details for {website} exists')
+
 # LOGO
 canvas = Canvas(window, width=200, height=200, bg=BG, highlightthickness=0)
 logo_img = PhotoImage(file="../assets/logo.png")
@@ -102,7 +117,7 @@ generate_button.grid(row=3, column=2, sticky="w")
 add_button = Button(window, text="Add", font=B_FONT, width=36, command=add_clicked, pady=0)
 add_button.grid(row=4, column=1, columnspan=2, sticky="w")
 
-search_button = Button(window, text="Search", font=B_FONT, width=14, pady=-4)
+search_button = Button(window, text="Search", font=B_FONT, width=14, pady=-4, command=find_password)
 search_button.grid(row=1, column=2, sticky="w")
 
 
