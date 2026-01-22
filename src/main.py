@@ -31,6 +31,7 @@ def generate_password():
     shuffle(password_list)
 
     password = ''.join(password_list)
+    password_entry.delete(0, END)
     password_entry.insert(0, password)
 
 def add_clicked():
@@ -46,7 +47,10 @@ def add_clicked():
 
     if website == '' or email == '' or password =='':
         messagebox.showerror(title='Empty Fields', message='Please fill every field')
-    else:
+        return
+
+    is_ok = messagebox.askokcancel(title='Confirm', message=f'These are the details entered: \nEmail: {email}\nPassword: {password}\nIs this ok to save?')
+    if is_ok:
         try:
             with open('../data.json', mode='r') as file:
                 data = json.load(file) # reads old data
@@ -62,7 +66,6 @@ def add_clicked():
             website_entry.delete(0, END)
             email_entry.delete(0, END)
             password_entry.delete(0, END)
-
 
 # LOGO
 canvas = Canvas(window, width=200, height=200, bg=BG, highlightthickness=0)
@@ -82,22 +85,27 @@ password_label = Label(window, text="Password:", font=L_FONT, bg=BG)
 password_label.grid(row=3, column=0, sticky="e")
 
 # Entries
-website_entry = Entry(window, width=35)
-website_entry.grid(row=1, column=1, columnspan=2, sticky="w")
+website_entry = Entry(window, width=32)
+website_entry.grid(row=1, column=1, columnspan=2, sticky="w", ipady=2)
 website_entry.focus()
 
-email_entry = Entry(window, width=35)
-email_entry.grid(row=2, column=1, columnspan=2, sticky="w")
+email_entry = Entry(window, width=55)
+email_entry.grid(row=2, column=1, columnspan=2, sticky="w", ipady=2)
 
-password_entry = Entry(window, width=21)
-password_entry.grid(row=3, column=1, sticky="w")
+password_entry = Entry(window, width=32)
+password_entry.grid(row=3, column=1, sticky="w", ipady=2)
 
 # Buttons
-generate_button = Button(window, text="Generate Password", font=B_FONT, command=generate_password)
+generate_button = Button(window, text="Generate Password", font=B_FONT, width=14, command=generate_password, pady=-4)
 generate_button.grid(row=3, column=2, sticky="w")
 
-add_button = Button(window, text="Add", font=B_FONT, width=36, command=add_clicked)
+add_button = Button(window, text="Add", font=B_FONT, width=36, command=add_clicked, pady=0)
 add_button.grid(row=4, column=1, columnspan=2, sticky="w")
+
+search_button = Button(window, text="Search", font=B_FONT, width=14, pady=-4)
+search_button.grid(row=1, column=2, sticky="w")
+
+
 
 window.mainloop()
 
