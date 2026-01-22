@@ -5,3 +5,4 @@
 -  Once the details got saved on the file, the fields get emptied automatically
 -  If at least one of the fields are empty, it will give a pop-up error asking to not leave empty fields
 -  There is a "Generate Password" functionality, where it will generate a password once the button is clicked
+-  There is a "Search" functionality, where it displays the credentials that the user entered for the website
